@@ -1,0 +1,36 @@
+[
+  {
+    "tool": "calculate-price",
+    "success": true,
+    "storeCode": "1400011",
+    "beType": 1,
+    "orderType": 1,
+    "quoted_at": "2026-10-23 09:45:54",
+    "price_fen": 2200,
+    "product_price_fen": 2200,
+    "items": [
+      {
+        "name": "火腿扒麦满分",
+        "quantity": 2,
+        "subtotal_fen": 2200
+      }
+    ]
+  },
+  {
+    "tool": "calculate-price",
+    "success": true,
+    "storeCode": "1400011",
+    "beType": 1,
+    "orderType": 1,
+    "quoted_at": "2026-10-23 09:45:57",
+    "price_fen": 2800,
+    "product_price_fen": 2800,
+    "items": [
+      {
+        "name": "猪柳麦满分",
+        "quantity": 2,
+        "subtotal_fen": 2800
+      }
+    ]
+  }
+]

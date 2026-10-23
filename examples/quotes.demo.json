@@ -1,0 +1,74 @@
+{
+  "budget_yuan": "50.00",
+  "people": 2,
+  "store_id": "DEMO-NOT-A-REAL-STORE",
+  "dining_mode": "DEMO-PICKUP",
+  "quote_max_age_minutes": 15,
+  "demo_now": "2026-10-23T01:00:00+00:00",
+  "exclude_tags": [],
+  "quotes": [
+    {
+      "id": "demo-a",
+      "store_id": "DEMO-NOT-A-REAL-STORE",
+      "dining_mode": "DEMO-PICKUP",
+      "source_tool": "calculate-price",
+      "evidence_type": "synthetic-demo",
+      "quoted_at": "2026-10-23T00:59:00+00:00",
+      "available": true,
+      "constraints_checked": true,
+      "payable_includes_all_fees": true,
+      "payable_yuan": "45.00",
+      "items": [
+        {
+          "name": "合成组合A",
+          "quantity": 2,
+          "main_units_per_item": 1,
+          "tags": [],
+          "tags_complete": true
+        }
+      ]
+    },
+    {
+      "id": "demo-b",
+      "store_id": "DEMO-NOT-A-REAL-STORE",
+      "dining_mode": "DEMO-PICKUP",
+      "source_tool": "calculate-price",
+      "evidence_type": "synthetic-demo",
+      "quoted_at": "2026-10-23T00:59:00+00:00",
+      "available": true,
+      "constraints_checked": true,
+      "payable_includes_all_fees": true,
+      "payable_yuan": "49.00",
+      "items": [
+        {
+          "name": "合成组合B",
+          "quantity": 2,
+          "main_units_per_item": 1,
+          "tags": [],
+          "tags_complete": true
+        }
+      ]
+    },
+    {
+      "id": "demo-c",
+      "store_id": "DEMO-NOT-A-REAL-STORE",
+      "dining_mode": "DEMO-PICKUP",
+      "source_tool": "calculate-price",
+      "evidence_type": "synthetic-demo",
+      "quoted_at": "2026-10-23T00:59:00+00:00",
+      "available": true,
+      "constraints_checked": true,
+      "payable_includes_all_fees": true,
+      "payable_yuan": "55.00",
+      "items": [
+        {
+          "name": "合成组合C",
+          "quantity": 2,
+          "main_units_per_item": 1,
+          "tags": [],
+          "tags_complete": true
+        }
+      ]
+    }
+  ]
+}
