@@ -1,80 +1,110 @@
 # 麦麦预算官 · McD Budget Buddy
 
-为“一个人30元怎么吃”“两个人50元、不要辣”提供门店级预算点餐建议的 Agent Skill。
+**两个人50元，主食和饮料都要——先把整单价格算清楚。**
 
-**当前状态：已完成真实 MCP 到店单品查询、价格试算与排序验证，详见 `docs/LIVE_VALIDATION.md`。项目仓库：https://github.com/wingA1/mcd-budget-buddy 。报名结果以官方活动Issue回复为准。离线演示仍使用明确标记的合成数据。外送、套餐和优惠券抵扣路径尚未真实验收。**
+基于麦当劳中国官方 MCP 的到店配餐 Skill 与 Python 工具。查询门店菜单、构建有限候选、逐单核价，核对商品编码、数量和费用后，输出预算内方案。
 
-## 功能
+[历史报价体验](docs/index.html) · [快速开始](docs/QUICKSTART.md) · [真实套餐验收](docs/LIVE_VALIDATION_V2.md) · [报名 Issue](https://github.com/M-China/mcd-developer-innovation-challenge/issues/1080)
 
-- 以人数、总预算、门店、就餐方式和口味为约束，组织有限数量的完整购物篮候选。
-- 指导宿主真实调用官方 MCP 查询菜单、优惠和套餐详情，以 `calculate-price` 核验最终应付价。
-- 用本地 Python 程序过滤超预算、过期报价、门店不一致、费用未确认和主食份数不足的候选，输出前三个方案。
-- 仅做查询与决策辅助，不自动下单或领取优惠券。
+> 历史体验页可下载仓库后双击 `docs/index.html` 打开，无需Token。GitHub文件页展示源码，不代表已开启在线托管。体验页只筛选真实历史购物篮，不实时查价。
 
-目标用户：希望控制单餐预算的上班族、学生及多人一起点餐的用户。主食份数约束不保证饱腹程度。
+## 已真实跑通的例子
 
-## 安装 Skill
+2026-10-23 10:13，广州今日广场餐厅，到店自取，2人、总预算50元、每人一份豆浆：
 
-1. 在支持自定义 Skill 及 Streamable HTTP MCP 的宿主中，配置麦当劳官方 MCP。获取Token入口：https://open.mcd.cn/mcp 。
-2. 参考 `mcp-config.example.json`，将真实Token仅保存在宿主本地的安全配置中。`${MCD_MCP_TOKEN}` 是公开示例占位符，并非所有宿主都自动展开环境变量；需要按宿主文档配置。不要直接提交填写了凭证的文件。
-3. 将 `skills/mcd-budget-buddy/` 作为技能目录导入宿主。各宿主导入入口不同，以其当前文档为准。让宿主同时能够访问本项目的 `scripts/` 与 `examples/`。脚本不是必选依赖，无法运行脚本时由宿主按 Skill 约束筛选。
-4. 确认宿主能列出官方 MCP 工具及 schema，然后执行下文真实验收案例。
+| 方案 | 餐品 | 整单应付 | 人均 | 余额 |
+| --- | --- | ---: | ---: | ---: |
+| 单品为主 | 吉士蛋麦满分×2 + 优品豆浆小杯×2 | ¥39.00 | ¥19.50 | ¥11.00 |
+| 一份套餐搭配单品 | 吉士蛋麦满分×1 + 雪菜脆笋鸡肉粥套餐×1 + 优品豆浆小杯×2 | ¥44.50 | ¥22.25 | ¥5.50 |
+| 两份套餐 | 雪菜脆笋鸡肉粥套餐×2 + 优品豆浆小杯×2 | ¥50.00 | ¥25.00 | ¥0.00 |
 
-本项目提供 `scripts/mcp_readonly.py` 只读MCP客户端。运行 `python scripts/mcp_readonly.py now-time-info --output private/time.json`，按隐藏输入提示填写Token；也支持 `MCD_MCP_TOKEN` 环境变量。其他工具参数通过 `--arguments` 指定JSON文件；当前工具参数说明见 `docs/MCP_SCHEMA_NOTES.md`。输出为私有原始响应，公开前必须脱敏。
+当时套餐包含粥、油条和薯饼，不含饮料。三个金额都来自各自完整购物篮的 `calculate-price`，没有用菜单价相加冒充核价。**这些是历史验证值，当前使用必须重新查询。**原始请求及响应的脱敏副本见 [verified-history.json](examples/verified-history.json)。
 
-本项目不包含模型 API 客户端，也不要求申请 OpenAI API Key；对话由所选宿主提供。
+## v0.2 完善了什么
 
-## 先运行离线演示
+- **可运行的配餐流程**：查菜单、查券、读默认套餐选项、构建候选、核价、校验、排序、生成 Markdown 报告。
+- **原始报价校验**：不仅看 `success=true`，还检查请求与返回的商品编码/数量、逐项小计、整单金额及费用。响应漏项时拒绝报价。
+- **拒绝条件低价误用**：自动候选排除随单购卡商品；不擅自领券、购卡或应用优惠券。
+- **历史交互体验**：按预算、人数和饮料需求筛选5个真实历史购物篮，查看证据、导出结果、体验标明为合成的漏项反例。
+- **离线回归与CI**：合成反例测试、真实脱敏证据回放、演示构建一致性和可独立安装的技能包构建。
 
-需要 Python 3.10 或以上，仅使用标准库。项目根目录运行：
+## 运行
+
+Python **3.10+**，无需第三方 Python 包；命令在仓库根目录执行。
+
+无需Token，先体验：
 
 ```bash
 python scripts/rank_quotes.py examples/quotes.demo.json --demo
+python scripts/rank_quotes.py examples/verified-history.json --replay
 python -m unittest discover -s tests -v
 ```
 
-演示会从3个合成候选中筛出45元和49元两套，剔除超出50元预算的55元候选。餐品、门店与金额均非真实麦当劳数据。
+`--demo`使用合成数据；`--replay`明确回放真实历史记录。两者都不是实时报价。不加这两个参数时，排序器要求原始请求/响应证据且报价须在15分钟内。
 
-## 使用示例
-
-> 使用麦麦预算官：两个人总共50元，到店取餐，不要辣。先问我位置、选定门店，再查询实际菜单和优惠；返回不超过预算的方案，价格必须试算核验。
-
-> 只有30元，想要一个主食和一杯饮料。查不到价格就直接说明，不要编造。
-
-> 把预算改为40元，保持同一家店和取餐方式，重新核验候选。
-
-## 实时报价排序
-
-由宿主将真实 MCP 响应归一化到与 `examples/quotes.demo.json` 相同的 JSON 结构，再执行：
+真实配餐（隐藏输入Token；Token申请入口：https://open.mcd.cn/mcp）：
 
 ```bash
-python scripts/rank_quotes.py /path/to/private-live-quotes.json
+python scripts/meal_planner.py --store-code 你的门店编号 --people 2 --budget 50 --with-drinks --output-dir private/run-001
 ```
 
-真实模式使用当前系统时间；每个候选需填 `evidence_type: mcp-live` 与 `evidence_ref`（私有脱敏调用记录引用），不能使用演示时钟。所有费用、优惠适用条件及供应状态需要核验后才能设置确认标记。它只是结构化排序器，不直接连接 MCP，也无法证明调用引用的真实性。真实调用证据必须另行留存。
+默认从非随单购卡的菜单中，用餐品名启发式挑选主食和饮料，构建最多4个候选，再分别调用官方整单计价；菜单价仅用于安排查询顺序。可以重复传入 `--main-code`、`--drink-code` 指定可选商品，最多核价6个候选；详细步骤见 [QUICKSTART](docs/QUICKSTART.md)。
 
-`items[].main_units_per_item` 代表每份该商品/套餐包含的主食份数；其他字段见样例。`exclude_tags` 为精确标签排除，例如 `spicy`；存在排除条件且标签未知时，程序拒绝该候选。它不能用于证明过敏安全。价格使用人民币元与十进制定点运算，拒绝负数和超过两位小数。
+实时流程只支持**到店自取**，人数1—6。支持默认套餐组成，遇到缺少默认选项的套餐会跳过。不能将名称启发式当作营养、过敏或饱腹判断。默认不应用任何个人优惠券，券列表仅作查询记录。
 
-只比较已核验候选，不声称“全菜单最低价”。15分钟为本项目防陈旧策略，不是官方报价有效期。
+私有输出目录包含原始响应 `session.json`、筛选结果 `result.json` 和报告 `report.md`，已经忽略在Git之外。输出目录必须是新目录，以免覆盖之前的记录。
 
-## 项目文件
+## 在 MCP 宿主中使用 Skill
 
-| 路径 | 用途 |
+把 `mcp-config.example.json` 作为格式参考，在宿主本地配置麦当劳 MCP。`${MCD_MCP_TOKEN}` 只是公开占位符，不保证宿主自动展开环境变量。不要提交填写真实凭证后的配置。
+
+构建自包含技能包：
+
+```bash
+python scripts/package_skill.py
+```
+
+将 `dist/mcd-budget-buddy-skill.zip` 解压并导入支持自定义 Skill 和 Streamable HTTP MCP 的宿主。包内包含 `SKILL.md`、运行脚本及公开样例，不依赖仓库外的文件。宿主导入方式以其当前文档为准；命令行工具也可独立使用，不需要模型API Key。
+
+## 报价为什么可信
+
+| 检查 | 不满足时 |
 | --- | --- |
-| `skills/mcd-budget-buddy/SKILL.md` | 宿主执行流程与工具调用边界 |
-| `scripts/rank_quotes.py` | 可运行的报价排序逻辑 |
-| `tests/test_rank_quotes.py` | 核心约束与输入异常测试 |
-| `examples/quotes.demo.json` | 明确标记的合成数据 |
-| `MCP_INTEGRATION.md` | 接入设计及真实联调待办 |
-| `CONTEST_DECLARATION.md` | 从赛事官方仓库下载的原文 |
-| `docs/ACCEPTANCE.md` | 真实验收与脱敏证据模板 |
-| `docs/REGISTRATION.md` | 发布步骤与报名正文模板 |
-| `docs/DEVELOPMENT.md` | 实际开发来源及当前完成情况 |
+| HTTP/JSON-RPC成功且业务 `success=true, code=200` | 停止该报价 |
+| 请求顶层商品来自本店菜单 | 拒绝未知编码 |
+| 返回商品与请求的编码及数量一致 | 拒绝漏算、换项或多返商品 |
+| 小计之和等于 `productPrice` | 拒绝口径不一致的报价 |
+| `price = productPrice + 配送/包装/餐具费用` | 拒绝无法解释的费用或优惠 |
+| 展示价格和商品与原始证据一致 | 拒绝被篡改的归一化结果 |
 
-## 参赛与发布
+价格用整数分核对，再使用 `Decimal` 转为元。只核验可解释的一致报价，不能据此保证库存；证据内容由调用者提供，本地校验也不构成来源真实性认证。优惠口径无法对账时不勉强输出价格。
 
-官方活动：https://github.com/M-China/mcd-developer-innovation-challenge
+## 项目结构
 
-报名截止：北京时间2026年10月25日23:59。真实接入验证、公开仓库与指定文档是必要条件。当前真实接入记录已完成，源码在本仓库发布，报名结果以官方活动Issue回复为准。参赛声明保留官方内容；提交前请自行阅读确认其中的承诺。没有使用腾讯 WorkBuddy，因此没有 `workbuddy.md`；若后续真实使用它继续开发，需导出真实记录再参与专项奖励。
+```text
+scripts/
+  meal_planner.py       实时配餐与报告
+  quote_validation.py  原始请求/响应校验
+  rank_quotes.py       预算、人数、饮料、时效与证据检查
+  mcp_readonly.py      查询及核价白名单客户端
+  package_skill.py     自包含技能打包
+skills/mcd-budget-buddy/SKILL.md
+examples/verified-history.json   脱敏真实历史请求/响应
+examples/quotes.demo.json        合成离线数据
+web/demo.html                   演示源模板
+tools/build_demo.py             校验历史证据并构建演示
+docs/index.html                 可双击打开的独立体验页
+tests/                          离线回归测试
+.github/workflows/verify.yml    CI
+```
 
-该项目非麦当劳官方产品；价格、供应与优惠以官方实时返回为准。未使用官方品牌图片或标志。源码及文档可公开审阅；原创代码及原创文档采用MIT许可证；官方参赛声明保留原有权利及条款，麦当劳服务、数据、商标和其他第三方内容不在本项目的MIT授权范围内。
+## 已知边界与参赛说明
+
+- 只搜索有限候选，**不保证全菜单最优**。当前自动主食分类基于餐品名称，支持范围有限；需要精确选择时使用商品编码。
+- 未真实验收：外送、优惠券抵扣、用户自定义套餐换项；不支持据此声称这些功能已经可用。
+- 不创建订单、不支付、不领券、不扣积分。没有调用库存查询能力，不保证供应状态。
+- 历史体验页不收Token、不连接账号，不将留存价格包装成实时结果。
+- 活动截止：北京时间2026年10月25日23:59；报名结果以[官方Issue](https://github.com/M-China/mcd-developer-innovation-challenge/issues/1080)回复为准，获奖按官方规则执行。
+- 本项目使用ChatGPT Work开发，没有伪造腾讯WorkBuddy记录，不以此申请WorkBuddy专项奖励。
+
+原创代码与原创文档采用MIT许可。官方 [CONTEST_DECLARATION.md](CONTEST_DECLARATION.md) 保持原文；官方声明、服务、数据、商标及第三方内容不属于本项目的MIT授权范围。非麦当劳官方产品。

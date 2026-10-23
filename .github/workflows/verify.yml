@@ -1,0 +1,29 @@
+name: Verify budget planner
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  offline-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.13']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run offline regression tests
+        run: python -m unittest discover -s tests -v
+      - name: Check historical page interaction logic
+        run: node --test tests/test_demo.mjs
+      - name: Check synthetic demo
+        run: python scripts/rank_quotes.py examples/quotes.demo.json --demo
+      - name: Build historical demo and check committed output
+        run: |
+          python tools/build_demo.py
+          git diff --exit-code -- docs/index.html
+      - name: Build portable skill
+        run: python scripts/package_skill.py

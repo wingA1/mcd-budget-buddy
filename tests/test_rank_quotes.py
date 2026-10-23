@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[1] / 'scripts'))
 import copy
 from datetime import datetime, timezone
 import importlib.util
@@ -47,7 +49,7 @@ class QuoteTests(unittest.TestCase):
         for q in self.data['quotes']:
             q['evidence_type'] = 'mcp-live'
             q['evidence_ref'] = 'unit-test-only-not-real-evidence'
-        self.assertEqual(len(self.run_rank(False)['plans']), 2)
+        self.assertFalse(self.run_rank(False)['plans'])
     def test_future_and_naive_times(self):
         for stamp in ['2026-10-23T01:01:00+00:00', '2026-10-23T00:59:00']:
             self.data['quotes'][0]['quoted_at'] = stamp

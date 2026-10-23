@@ -1,0 +1,671 @@
+{
+  "description": "2026-10-23两轮真实MCP响应的脱敏历史回放（09:45两套单品、10:13三套含饮料组合），不是当前报价。较早请求参数按本次开发调用记录收录。已移除traceId及账号相关字段，保留商品、数量、金额与请求配置。",
+  "store_name": "麦当劳广州今日广场餐厅",
+  "budget_yuan": "50.00",
+  "people": 2,
+  "store_id": "1400011",
+  "dining_mode": "pickup",
+  "require_drinks": false,
+  "quotes": [
+    {
+      "id": "candidate-1",
+      "store_id": "1400011",
+      "dining_mode": "pickup",
+      "source_tool": "calculate-price",
+      "evidence_type": "mcp-live",
+      "evidence_ref": "examples/verified-history.json#candidate-1",
+      "quoted_at": "2026-10-23T02:13:02.625982+00:00",
+      "payable_yuan": "39.00",
+      "payable_includes_all_fees": true,
+      "constraints_checked": true,
+      "quote_accepted": true,
+      "raw_evidence": {
+        "request": {
+          "storeCode": "1400011",
+          "orderType": 1,
+          "beType": 1,
+          "needTableware": false,
+          "items": [
+            {
+              "productCode": "1088",
+              "quantity": 2
+            },
+            {
+              "productCode": "5888",
+              "quantity": 2,
+              "modification": {
+                "values": [
+                  {
+                    "code": "100136",
+                    "key": "0-1",
+                    "quantity": 1
+                  },
+                  {
+                    "code": "100141",
+                    "key": "0-1",
+                    "quantity": 1
+                  },
+                  {
+                    "code": "100214",
+                    "key": "0-1",
+                    "quantity": 1
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "response": {
+          "result": {
+            "isError": false,
+            "structuredContent": {
+              "success": true,
+              "code": 200,
+              "data": {
+                "price": 3900,
+                "productPrice": 3900,
+                "discount": 0,
+                "originalPrice": 3900,
+                "productOriginalPrice": 3900,
+                "productList": [
+                  {
+                    "productCode": "1088",
+                    "productName": "优品豆浆小杯",
+                    "quantity": 2,
+                    "subtotal": 1900,
+                    "originalSubtotal": 1900
+                  },
+                  {
+                    "productCode": "5888",
+                    "productName": "吉士蛋麦满分",
+                    "quantity": 2,
+                    "subtotal": 2000,
+                    "originalSubtotal": 2000
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "menu_codes": [
+          "1088",
+          "5888"
+        ]
+      },
+      "validation": {
+        "payable_yuan": "39.00",
+        "product_yuan": "39.00",
+        "fees_yuan": {
+          "deliveryPrice": "0.00",
+          "packingPrice": "0.00",
+          "tablewarePrice": "0.00"
+        },
+        "verified_items": {
+          "1088": 2,
+          "5888": 2
+        },
+        "checks": [
+          "business_success",
+          "menu_codes",
+          "product_quantities",
+          "line_subtotals",
+          "total_with_fees"
+        ]
+      },
+      "items": [
+        {
+          "product_code": "1088",
+          "name": "优品豆浆小杯",
+          "quantity": 2,
+          "main_units_per_item": 0,
+          "drink_units_per_item": 1,
+          "components": [],
+          "tags": [],
+          "tags_complete": false
+        },
+        {
+          "product_code": "5888",
+          "name": "吉士蛋麦满分",
+          "quantity": 2,
+          "main_units_per_item": 1,
+          "drink_units_per_item": 0,
+          "components": [],
+          "tags": [],
+          "tags_complete": false
+        }
+      ]
+    },
+    {
+      "id": "candidate-2",
+      "store_id": "1400011",
+      "dining_mode": "pickup",
+      "source_tool": "calculate-price",
+      "evidence_type": "mcp-live",
+      "evidence_ref": "examples/verified-history.json#candidate-2",
+      "quoted_at": "2026-10-23T02:13:08.961699+00:00",
+      "payable_yuan": "50.00",
+      "payable_includes_all_fees": true,
+      "constraints_checked": true,
+      "quote_accepted": true,
+      "raw_evidence": {
+        "request": {
+          "storeCode": "1400011",
+          "orderType": 1,
+          "beType": 1,
+          "needTableware": false,
+          "items": [
+            {
+              "productCode": "1088",
+              "quantity": 2
+            },
+            {
+              "productCode": "9900005470",
+              "quantity": 2,
+              "roundList": [
+                {
+                  "round": "1",
+                  "comboItemList": [
+                    {
+                      "code": "513606",
+                      "quantity": 1
+                    }
+                  ]
+                },
+                {
+                  "round": "2",
+                  "comboItemList": [
+                    {
+                      "code": "2631",
+                      "quantity": 1
+                    }
+                  ]
+                },
+                {
+                  "round": "3",
+                  "comboItemList": [
+                    {
+                      "code": "4825",
+                      "quantity": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "response": {
+          "result": {
+            "isError": false,
+            "structuredContent": {
+              "success": true,
+              "code": 200,
+              "data": {
+                "price": 5000,
+                "productPrice": 5000,
+                "discount": 0,
+                "originalPrice": 5000,
+                "productOriginalPrice": 5000,
+                "productList": [
+                  {
+                    "productCode": "1088",
+                    "productName": "优品豆浆小杯",
+                    "quantity": 2,
+                    "subtotal": 1900,
+                    "originalSubtotal": 1900
+                  },
+                  {
+                    "productCode": "9900005470",
+                    "productName": "雪菜脆笋鸡肉粥套餐",
+                    "quantity": 2,
+                    "subtotal": 3100,
+                    "originalSubtotal": 3100
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "menu_codes": [
+          "1088",
+          "9900005470"
+        ]
+      },
+      "validation": {
+        "payable_yuan": "50.00",
+        "product_yuan": "50.00",
+        "fees_yuan": {
+          "deliveryPrice": "0.00",
+          "packingPrice": "0.00",
+          "tablewarePrice": "0.00"
+        },
+        "verified_items": {
+          "1088": 2,
+          "9900005470": 2
+        },
+        "checks": [
+          "business_success",
+          "menu_codes",
+          "product_quantities",
+          "line_subtotals",
+          "total_with_fees"
+        ]
+      },
+      "items": [
+        {
+          "product_code": "1088",
+          "name": "优品豆浆小杯",
+          "quantity": 2,
+          "main_units_per_item": 0,
+          "drink_units_per_item": 1,
+          "components": [],
+          "tags": [],
+          "tags_complete": false
+        },
+        {
+          "product_code": "9900005470",
+          "name": "雪菜脆笋鸡肉粥套餐",
+          "quantity": 2,
+          "main_units_per_item": 1,
+          "drink_units_per_item": 0,
+          "components": [
+            {
+              "name": "雪菜脆笋鸡肉粥",
+              "quantity": 1
+            },
+            {
+              "name": "脆香油条",
+              "quantity": 1
+            },
+            {
+              "name": "脆薯饼",
+              "quantity": 1
+            }
+          ],
+          "tags": [],
+          "tags_complete": false
+        }
+      ]
+    },
+    {
+      "id": "candidate-3",
+      "store_id": "1400011",
+      "dining_mode": "pickup",
+      "source_tool": "calculate-price",
+      "evidence_type": "mcp-live",
+      "evidence_ref": "examples/verified-history.json#candidate-3",
+      "quoted_at": "2026-10-23T02:13:15.454032+00:00",
+      "payable_yuan": "44.50",
+      "payable_includes_all_fees": true,
+      "constraints_checked": true,
+      "quote_accepted": true,
+      "raw_evidence": {
+        "request": {
+          "storeCode": "1400011",
+          "orderType": 1,
+          "beType": 1,
+          "needTableware": false,
+          "items": [
+            {
+              "productCode": "1088",
+              "quantity": 2
+            },
+            {
+              "productCode": "5888",
+              "quantity": 1,
+              "modification": {
+                "values": [
+                  {
+                    "code": "100136",
+                    "key": "0-1",
+                    "quantity": 1
+                  },
+                  {
+                    "code": "100141",
+                    "key": "0-1",
+                    "quantity": 1
+                  },
+                  {
+                    "code": "100214",
+                    "key": "0-1",
+                    "quantity": 1
+                  }
+                ]
+              }
+            },
+            {
+              "productCode": "9900005470",
+              "quantity": 1,
+              "roundList": [
+                {
+                  "round": "1",
+                  "comboItemList": [
+                    {
+                      "code": "513606",
+                      "quantity": 1
+                    }
+                  ]
+                },
+                {
+                  "round": "2",
+                  "comboItemList": [
+                    {
+                      "code": "2631",
+                      "quantity": 1
+                    }
+                  ]
+                },
+                {
+                  "round": "3",
+                  "comboItemList": [
+                    {
+                      "code": "4825",
+                      "quantity": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "response": {
+          "result": {
+            "isError": false,
+            "structuredContent": {
+              "success": true,
+              "code": 200,
+              "data": {
+                "price": 4450,
+                "productPrice": 4450,
+                "discount": 0,
+                "originalPrice": 4450,
+                "productOriginalPrice": 4450,
+                "productList": [
+                  {
+                    "productCode": "1088",
+                    "productName": "优品豆浆小杯",
+                    "quantity": 2,
+                    "subtotal": 1900,
+                    "originalSubtotal": 1900
+                  },
+                  {
+                    "productCode": "5888",
+                    "productName": "吉士蛋麦满分",
+                    "quantity": 1,
+                    "subtotal": 1000,
+                    "originalSubtotal": 1000
+                  },
+                  {
+                    "productCode": "9900005470",
+                    "productName": "雪菜脆笋鸡肉粥套餐",
+                    "quantity": 1,
+                    "subtotal": 1550,
+                    "originalSubtotal": 1550
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "menu_codes": [
+          "1088",
+          "5888",
+          "9900005470"
+        ]
+      },
+      "validation": {
+        "payable_yuan": "44.50",
+        "product_yuan": "44.50",
+        "fees_yuan": {
+          "deliveryPrice": "0.00",
+          "packingPrice": "0.00",
+          "tablewarePrice": "0.00"
+        },
+        "verified_items": {
+          "1088": 2,
+          "5888": 1,
+          "9900005470": 1
+        },
+        "checks": [
+          "business_success",
+          "menu_codes",
+          "product_quantities",
+          "line_subtotals",
+          "total_with_fees"
+        ]
+      },
+      "items": [
+        {
+          "product_code": "1088",
+          "name": "优品豆浆小杯",
+          "quantity": 2,
+          "main_units_per_item": 0,
+          "drink_units_per_item": 1,
+          "components": [],
+          "tags": [],
+          "tags_complete": false
+        },
+        {
+          "product_code": "5888",
+          "name": "吉士蛋麦满分",
+          "quantity": 1,
+          "main_units_per_item": 1,
+          "drink_units_per_item": 0,
+          "components": [],
+          "tags": [],
+          "tags_complete": false
+        },
+        {
+          "product_code": "9900005470",
+          "name": "雪菜脆笋鸡肉粥套餐",
+          "quantity": 1,
+          "main_units_per_item": 1,
+          "drink_units_per_item": 0,
+          "components": [
+            {
+              "name": "雪菜脆笋鸡肉粥",
+              "quantity": 1
+            },
+            {
+              "name": "脆香油条",
+              "quantity": 1
+            },
+            {
+              "name": "脆薯饼",
+              "quantity": 1
+            }
+          ],
+          "tags": [],
+          "tags_complete": false
+        }
+      ]
+    },
+    {
+      "id": "quote-ham",
+      "store_id": "1400011",
+      "dining_mode": "pickup",
+      "source_tool": "calculate-price",
+      "evidence_type": "mcp-live",
+      "evidence_ref": "examples/verified-history.json#quote-ham",
+      "quoted_at": "2026-10-23T09:45:54+08:00",
+      "payable_yuan": "22.00",
+      "payable_includes_all_fees": true,
+      "constraints_checked": true,
+      "quote_accepted": true,
+      "validation": {
+        "payable_yuan": "22.00",
+        "product_yuan": "22.00",
+        "fees_yuan": {
+          "deliveryPrice": "0.00",
+          "packingPrice": "0.00",
+          "tablewarePrice": "0.00"
+        },
+        "verified_items": {
+          "1254": 2
+        },
+        "checks": [
+          "business_success",
+          "menu_codes",
+          "product_quantities",
+          "line_subtotals",
+          "total_with_fees"
+        ]
+      },
+      "raw_evidence": {
+        "request": {
+          "storeCode": "1400011",
+          "orderType": 1,
+          "beType": 1,
+          "needTableware": false,
+          "items": [
+            {
+              "productCode": "1254",
+              "quantity": 2,
+              "modification": {
+                "values": [
+                  {
+                    "code": "100168",
+                    "key": "0-1",
+                    "quantity": 1
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "response": {
+          "result": {
+            "isError": false,
+            "structuredContent": {
+              "success": true,
+              "code": 200,
+              "data": {
+                "price": 2200,
+                "productPrice": 2200,
+                "originalPrice": 2200,
+                "productOriginalPrice": 2200,
+                "discount": 0,
+                "productList": [
+                  {
+                    "productCode": "1254",
+                    "productName": "火腿扒麦满分",
+                    "quantity": 2,
+                    "originalSubtotal": 2200,
+                    "subtotal": 2200
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "menu_codes": [
+          "1254"
+        ]
+      },
+      "items": [
+        {
+          "product_code": "1254",
+          "name": "火腿扒麦满分",
+          "quantity": 2,
+          "main_units_per_item": 1,
+          "drink_units_per_item": 0,
+          "tags": [],
+          "tags_complete": false
+        }
+      ]
+    },
+    {
+      "id": "quote-sausage",
+      "store_id": "1400011",
+      "dining_mode": "pickup",
+      "source_tool": "calculate-price",
+      "evidence_type": "mcp-live",
+      "evidence_ref": "examples/verified-history.json#quote-sausage",
+      "quoted_at": "2026-10-23T09:45:57+08:00",
+      "payable_yuan": "28.00",
+      "payable_includes_all_fees": true,
+      "constraints_checked": true,
+      "quote_accepted": true,
+      "validation": {
+        "payable_yuan": "28.00",
+        "product_yuan": "28.00",
+        "fees_yuan": {
+          "deliveryPrice": "0.00",
+          "packingPrice": "0.00",
+          "tablewarePrice": "0.00"
+        },
+        "verified_items": {
+          "5024": 2
+        },
+        "checks": [
+          "business_success",
+          "menu_codes",
+          "product_quantities",
+          "line_subtotals",
+          "total_with_fees"
+        ]
+      },
+      "raw_evidence": {
+        "request": {
+          "storeCode": "1400011",
+          "orderType": 1,
+          "beType": 1,
+          "needTableware": false,
+          "items": [
+            {
+              "productCode": "5024",
+              "quantity": 2,
+              "modification": {
+                "values": [
+                  {
+                    "code": "100141",
+                    "key": "0-1",
+                    "quantity": 1
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "response": {
+          "result": {
+            "isError": false,
+            "structuredContent": {
+              "success": true,
+              "code": 200,
+              "data": {
+                "price": 2800,
+                "productPrice": 2800,
+                "originalPrice": 2800,
+                "productOriginalPrice": 2800,
+                "discount": 0,
+                "productList": [
+                  {
+                    "productCode": "5024",
+                    "productName": "猪柳麦满分",
+                    "quantity": 2,
+                    "originalSubtotal": 2800,
+                    "subtotal": 2800
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "menu_codes": [
+          "5024"
+        ]
+      },
+      "items": [
+        {
+          "product_code": "5024",
+          "name": "猪柳麦满分",
+          "quantity": 2,
+          "main_units_per_item": 1,
+          "drink_units_per_item": 0,
+          "tags": [],
+          "tags_complete": false
+        }
+      ]
+    }
+  ]
+}
